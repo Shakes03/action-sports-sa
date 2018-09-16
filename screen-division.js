@@ -137,7 +137,7 @@ export default class Division extends React.Component {
   marginTop: 60, marginBottom: 30, marginHorizontal: 10, backgroundColor: '#fffafa', opacity: 0.97, borderWidth: 1, borderColor: 'white',
 }}
               >
-                <Text style={styles.textDate}>Points breakdown</Text>
+                <Text style={styles.textDateBlack}>Points breakdown</Text>
                 <TouchableOpacity
                   style={{
          alignSelf: 'flex-end', marginTop: 5, paddingRight: 15, position: 'absolute',
@@ -147,7 +147,7 @@ export default class Division extends React.Component {
                    }}
                 >
                   <Image
-                    style={{ width: 30, height: 30 }}
+                    style={{ width: 30, height: 30, opacity: 0.6 }}
                     source={require('./assets/close-icon.png')}
                   />
                 </TouchableOpacity>
@@ -159,7 +159,7 @@ export default class Division extends React.Component {
                   const bonusPointsListKeyed = bonusPointsList.map(i => ({ point: i }));
                   return (
                     <View>
-                      <Text style={styles.textTime}>{item.match}</Text>
+                      <Text style={styles.textTimeBlack}>{item.match}</Text>
                       <FlatList
                         data={bonusPointsListKeyed}
                         renderItem={({ item }) => <Text style={{ marginLeft: 30 }}>{item.point}</Text>}
@@ -228,6 +228,7 @@ export default class Division extends React.Component {
             renderSectionHeader={({ section: { date } }) => (
               <View style={{ backgroundColor: '#2e8b57', marginTop: 5 }}>
                 <Text style={styles.textDate}>{date}</Text>
+                <View style={styles.line} />
               </View>
             )}
             sections={this.state.dataResults}

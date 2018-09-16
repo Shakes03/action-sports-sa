@@ -48,7 +48,7 @@ export default class Fixtures extends React.Component {
             renderItem={({ item, index }) => (
               <View style={styles.fixturesCardDetail}>
                 <Text style={styles.textTime} key={index}>{item.time} at {item.court}</Text>
-                <View style={{ marginLeft: 35, flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity
                     onPress={() => this.props.navigation.push('team', {
                       teamUrl: item.homeTeamUrl,
@@ -72,6 +72,7 @@ export default class Fixtures extends React.Component {
             renderSectionHeader={({ section: { date } }) => (
               <View style={styles.fixturesCardSection}>
                 <Text style={styles.textDate}>{date}</Text>
+                <View style={styles.line} />
               </View>
               )}
             sections={this.state.dataSource}

@@ -69,9 +69,9 @@ export default class Team extends React.Component {
                   renderView={
                     collapse => (
                       <View>
-                        <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contribution}/{item.played})</Text>
+                        <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contributionAverage})</Text>
                         <Image
-                          style={styles.chevronDownArrowImage}
+                          style={styles.chevronImage}
                           source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}
                         />
                       </View>

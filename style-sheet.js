@@ -57,13 +57,31 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   textDate: {
+    color: $white,
+    textAlign: 'center',
+    fontSize: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+  },
+  textDateBlack: {
     color: $black,
-    fontSize: 22,
+    textAlign: 'center',
+    fontSize: 20,
     marginLeft: 20,
     marginRight: 20,
     marginTop: 20,
   },
   textTime: {
+    textAlign: 'center',
+    color: $white,
+    fontSize: 15,
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 15,
+  },
+  textTimeBlack: {
+    textAlign: 'center',
     color: $black,
     fontSize: 15,
     marginLeft: 25,
@@ -148,7 +166,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   fixturesCardSection: {
-    marginTop: 3,
+    marginTop: 10,
+    marginHorizontal: 5,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: $green,
@@ -156,6 +175,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   fixturesCardDetail: {
+    marginHorizontal: 5,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: $green,
@@ -177,8 +197,9 @@ const styles = StyleSheet.create({
   },
   chevronImage: {
     right: 15,
-    paddingTop: 15,
+    marginTop: 15,
     position: 'absolute',
+    opacity: 0.5,
     width: 20,
     height: 20,
   },
@@ -208,6 +229,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
+  },
+  line: {
+    borderWidth: 0.3,
+    borderColor: $white,
+    margin: 10,
   },
 });
 
