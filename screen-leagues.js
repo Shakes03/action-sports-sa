@@ -51,7 +51,7 @@ export default class Leagues extends React.Component {
           style={styles.headerImage}
           source={this.state.iconPath}
         />
-        <Text style={styles.leagueHeader}>{this.state.sport}</Text>
+        <Text style={styles.header}>{this.state.sport}</Text>
         <FlatList
           data={this.state.dataSource}
           keyExtractor={(item, index) => index.toString()}

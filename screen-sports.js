@@ -25,7 +25,7 @@ export default class Sports extends React.Component {
         const list = sportsList(responseText);
         this.setState({
           isLoading: false,
-          dataSource: list,
+          dataSource: (list.length !== 0) ? list : [{ name: this.state.arenaName }],
         }, () => {});
       })
       .catch((error) => {

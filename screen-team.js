@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, Image, View } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 import CollapseView from 'react-native-collapse-view';
 import { playerList } from './data';
@@ -68,7 +68,13 @@ export default class Team extends React.Component {
                 <CollapseView
                   renderView={
                     collapse => (
-                      <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contribution}/{item.played})</Text>
+                      <View>
+                        <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contribution}/{item.played})</Text>
+                        <Image
+                          style={styles.chevronDownArrowImage}
+                          source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}
+                        />
+                      </View>
                     )
                   }
                   renderCollapseView={

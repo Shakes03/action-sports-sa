@@ -22,7 +22,11 @@ const sportsList = (responseText) => {
 const leaguesList = (responseText, sport) => {
   const root = HTMLParser.parse(responseText);
   const listObject = root.querySelectorAll('.LTable tr');
+  const isNotLeague = root.querySelectorAll('h3');
   const allLeagues = [];
+  if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ')) {
+    allLeagues.push({ [isNotLeague[0].childNodes[0].rawText.replace(' Current Leagues', '')]: [] });
+  }
   listObject.map((x) => {
     if (x.childNodes[1].childNodes[3]) {
       allLeagues.push({ [x.childNodes[1].childNodes[3].childNodes[0].rawText]: [] });
@@ -32,11 +36,10 @@ const leaguesList = (responseText, sport) => {
     if (x.childNodes[1].childNodes[0].rawText.length > 7) {
       const leagueFullTitle = x.childNodes[1].childNodes[0].rawText.replace(/[\n|\r|\t]/g, '');
       const leagueSplit = leagueFullTitle.split('-');
-      // console.log(leagueSplit[0].trim());
       arra.push({
         league: leagueSplit[0].trim(),
         season: leagueSplit[1].trim(),
-        division: leagueSplit[2] ? leagueSplit[2].trim() : leagueSplit[1].trim(),
+        division: leagueSplit[2] ? leagueSplit.slice(2, leagueSplit.length).toString().trim().replace(/amp;/g, '') : leagueSplit[1].trim(),
       });
     }
     if (x.childNodes[3]) {
@@ -68,7 +71,7 @@ const teamsList = (responseText) => {
   const listObject = root.querySelectorAll('.STTable tr.STRow');
   const list = listObject.map(i =>
     ({
-      team: i.childNodes[1].childNodes[0].childNodes[0].rawText,
+      team: i.childNodes[1].childNodes[0].childNodes[0].rawText.replace(/amp;/g, ''),
       teamUrl: i.childNodes[1].childNodes[0].rawAttrs.replace('HREF=', '').replace(/"/g, '').replace(/amp;/g, ''),
       played: i.childNodes[2].childNodes[0].rawText,
       wins: i.childNodes[3].childNodes[0].rawText,
@@ -78,7 +81,7 @@ const teamsList = (responseText) => {
         i.childNodes[11].childNodes[0].rawText,
       pointsBreakdown: (i.childNodes[13] && i.childNodes[13].childNodes[1]) ? (
         i.childNodes[13].childNodes[1].childNodes[2].childNodes.map(n => ({
-          match: n.childNodes[0].rawText,
+          match: n.childNodes[0].rawText.replace(/amp;/g, ''),
           points: (n.childNodes[1]) ? n.childNodes[1].rawText
             .replace('\n                for Win', ' for Win |')
             .replace('\n                for Draw', ' for Draw |')
@@ -107,10 +110,10 @@ const fixturesList = (responseText) => {
         if (k.rawAttrs === 'class="FDate"') matches.time = k.childNodes[0].rawText;
         if (k.rawAttrs === 'class="FPlayingArea"') matches.court = k.childNodes[0].rawText;
 
-        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeam = (k.childNodes[0].childNodes) ? k.childNodes[0].childNodes[0].rawText : '';
+        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeam = (k.childNodes[0].childNodes) ? k.childNodes[0].childNodes[0].rawText.replace(/amp;/g, '') : '';
         if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeamUrl = (k.childNodes[0].childNodes) ? k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '') : '';
 
-        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeam = (k.childNodes[0].childNodes) ? k.childNodes[0].childNodes[0].rawText : '';
+        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeam = (k.childNodes[0].childNodes) ? k.childNodes[0].childNodes[0].rawText.replace(/amp;/g, '') : '';
         if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeamUrl = (k.childNodes[0].childNodes) ? k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '') : '';
 
         return m.push(matches);
@@ -139,8 +142,8 @@ const resultsList = (responseText) => {
         if (k.rawAttrs === 'class="FDate"') matches.time = k.childNodes[0].rawText;
         if (k.rawAttrs === 'class="FPlayingArea"') matches.court = k.childNodes[0].rawText;
 
-        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeam = k.childNodes[0].childNodes[0].rawText;
-        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeamUrl = k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '');
+        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeam = (k.childNodes[0].childNodes[0]) ? k.childNodes[0].childNodes[0].rawText.replace(/amp;/g, '') : '';
+        if (k.rawAttrs === 'class="FHomeTeam"') matches.homeTeamUrl = (k.childNodes[0].childNodes[0]) ? k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '') : '';
 
         if (k.rawAttrs === 'class="FScore"') {
           matches.score =
@@ -153,8 +156,8 @@ const resultsList = (responseText) => {
           .replace('\' )', '').replace('\\', '').replace('"', '') : '/';
         }
 
-        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeam = (k.childNodes[0].childNodes[0]) ? k.childNodes[0].childNodes[0].rawText : '';
-        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeamUrl = k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '');
+        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeam = (k.childNodes[0].childNodes[0]) ? k.childNodes[0].childNodes[0].rawText.replace(/amp;/g, '') : '';
+        if (k.rawAttrs === 'class="FAwayTeam"') matches.awayTeamUrl = (k.childNodes[0].childNodes[0]) ? k.childNodes[0].rawAttrs.replace('href=', '').replace(/"/g, '').replace(/amp;/g, '') : '';
 
         return m.push(matches);
       });
@@ -176,14 +179,15 @@ const playerList = (responseText) => {
     const stats = {};
     stats.player = i.childNodes[0].childNodes[0].childNodes[0].rawText;
     if (i.childNodes[2]) {
+      const downOne = (i.childNodes[12]) ? 0 : 1;
       stats.played = i.childNodes[1].childNodes[0].rawText;
       stats.runs = i.childNodes[2].childNodes[0].rawText;
       stats.runsAverage = i.childNodes[3].childNodes[0].rawText;
       stats.strikeRate = i.childNodes[4].childNodes[0].rawText;
-      stats.wickets = i.childNodes[7].childNodes[0].rawText;
-      stats.runsConceded = i.childNodes[9].childNodes[0].rawText;
-      stats.contribution = i.childNodes[11].childNodes[0].rawText;
-      stats.contributionAverage = i.childNodes[12].childNodes[0].rawText;
+      stats.wickets = i.childNodes[7 - downOne].childNodes[0].rawText;
+      stats.runsConceded = i.childNodes[9 - downOne].childNodes[0].rawText;
+      stats.contribution = i.childNodes[11 - downOne].childNodes[0].rawText;
+      stats.contributionAverage = i.childNodes[12 - downOne].childNodes[0].rawText;
     } else {
       stats.played = 'N/A';
       stats.runs = 'N/A';
