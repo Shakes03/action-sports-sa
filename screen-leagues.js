@@ -1,6 +1,6 @@
 import React from 'react';
 import Swipeout from 'react-native-swipeout';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View, Button, Image, TouchableOpacity, ListView } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import { leaguesList } from './data';
 
 const { styles } = require('./style-sheet');
@@ -83,6 +83,7 @@ export default class Leagues extends React.Component {
                              </TouchableOpacity>,
                 }]}
                 left={[]}
+                close
               >
                 <View style={styles.card}>
                   <Text style={styles.textLeague}>{item.season}</Text>

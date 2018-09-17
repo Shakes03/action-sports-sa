@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, TouchableOpacity } from 'react-native';
 import { fixturesList } from './data';
 
 const { styles } = require('./style-sheet');

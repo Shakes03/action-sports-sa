@@ -24,39 +24,44 @@ const leaguesList = (responseText, sport) => {
   const listObject = root.querySelectorAll('.LTable tr');
   const isNotLeague = root.querySelectorAll('h3');
   const allLeagues = [];
-  if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ')) {
-    allLeagues.push({ [isNotLeague[0].childNodes[0].rawText.replace(' Current Leagues', '')]: [] });
-  }
-  listObject.map((x) => {
-    if (x.childNodes[1].childNodes[3]) {
-      allLeagues.push({ [x.childNodes[1].childNodes[3].childNodes[0].rawText]: [] });
+  let list;
+  if (listObject.length > 0 && isNotLeague.length > 0) {
+    if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ')) {
+      allLeagues.push({ [isNotLeague[0].childNodes[0].rawText.replace(' Current Leagues', '')]: [] });
     }
-    const arra =
+    listObject.map((x) => {
+      if (x.childNodes[1].childNodes[3]) {
+        allLeagues.push({ [x.childNodes[1].childNodes[3].childNodes[0].rawText]: [] });
+      }
+      const arra =
      allLeagues[allLeagues.length - 1][Object.keys(allLeagues[allLeagues.length - 1])[0]];
-    if (x.childNodes[1].childNodes[0].rawText.length > 7) {
-      const leagueFullTitle = x.childNodes[1].childNodes[0].rawText.replace(/[\n|\r|\t]/g, '');
-      const leagueSplit = leagueFullTitle.split('-');
-      arra.push({
-        league: leagueSplit[0].trim(),
-        season: leagueSplit[1].trim(),
-        division: leagueSplit[2] ? leagueSplit.slice(2, leagueSplit.length).toString().trim().replace(/amp;/g, '') : leagueSplit[1].trim(),
-      });
-    }
-    if (x.childNodes[3]) {
-      Object.assign(arra[arra.length - 1], { fixtures: x.childNodes[3].childNodes[0].rawAttrs.replace('class="LFixtures" href=', '').replace(/"/g, '').replace(/amp;/g, '') });
-    }
-    if (x.childNodes[5]) {
-      Object.assign(arra[arra.length - 1], { standings: x.childNodes[5].childNodes[0].rawAttrs.replace('class="LStandings" href=', '').replace(/"/g, '').replace(/amp;/g, '') });
-    }
-    return arra;
-  });
-  const list = allLeagues.filter((o) => {
-    let s;
-    if (Object.keys(o)[0] === sport) {
-      s = Object.values(o)[0];
-    }
-    return s;
-  })[0][sport];
+      if (x.childNodes[1].childNodes[0].rawText.length > 7) {
+        const leagueFullTitle = x.childNodes[1].childNodes[0].rawText.replace(/[\n|\r|\t]/g, '');
+        const leagueSplit = leagueFullTitle.split('-');
+        arra.push({
+          league: leagueSplit[0].trim(),
+          season: leagueSplit[1].trim(),
+          division: leagueSplit[2] ? leagueSplit.slice(2, leagueSplit.length).toString().trim().replace(/amp;/g, '') : leagueSplit[1].trim(),
+        });
+      }
+      if (x.childNodes[3]) {
+        Object.assign(arra[arra.length - 1], { fixtures: x.childNodes[3].childNodes[0].rawAttrs.replace('class="LFixtures" href=', '').replace(/"/g, '').replace(/amp;/g, '') });
+      }
+      if (x.childNodes[5]) {
+        Object.assign(arra[arra.length - 1], { standings: x.childNodes[5].childNodes[0].rawAttrs.replace('class="LStandings" href=', '').replace(/"/g, '').replace(/amp;/g, '') });
+      }
+      return arra;
+    });
+    list = allLeagues.filter((o) => {
+      let s;
+      if (Object.keys(o)[0] === sport) {
+        s = Object.values(o)[0];
+      }
+      return s;
+    })[0][sport];
+  } else {
+    list = [];
+  }
   return list;
 };
 

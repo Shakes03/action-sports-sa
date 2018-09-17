@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    height: 50,
-    marginTop: 10,
+    margin: 15,
+    marginLeft: 45,
+    marginRight: 45,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   textDivision: {
     color: $white,
-    fontSize: 25,
+    fontSize: 20,
     backgroundColor: $green,
     marginLeft: 20,
   },
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   textDateBlack: {
     color: $black,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   textTime: {
     textAlign: 'center',
@@ -190,6 +191,7 @@ const styles = StyleSheet.create({
   },
   headerImage: {
     marginTop: 8,
+    marginLeft: 10,
     alignSelf: 'flex-start',
     width: 50,
     height: 50,
