@@ -204,16 +204,23 @@ export default class Division extends React.Component {
               </View>)
             }
           />
-          <View style={{ paddingTop: 8 }}>
+          <View style={{ marginTop: 5, backgroundColor: '#2e8b57' }}>
             <TouchableOpacity
-              style={styles.card}
+              style={styles.divButton}
               onPress={() => this.props.navigation.push('fixtures', {
               fixtures: this.state.fixturesUrl,
               division: this.state.division,
             })}
             >
-              <Text style={styles.textCard}>Fixtures</Text>
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 30, height: 30,
+                }}
+                source={require('./assets/calendar.png')}
+              />
+              <Text style={styles.textButton}>Fixtures</Text>
             </TouchableOpacity>
+            <Text style={styles.textCenter}>Results</Text>
           </View>
           <SectionList
             renderItem={({ item, index }) => (

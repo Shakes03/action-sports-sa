@@ -83,7 +83,7 @@ export default class Leagues extends React.Component {
                              </TouchableOpacity>,
                 }]}
                 left={[]}
-                close
+                autoClose
               >
                 <View style={styles.card}>
                   <Text style={styles.textLeague}>{item.season}</Text>
