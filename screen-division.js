@@ -204,7 +204,10 @@ export default class Division extends React.Component {
               </View>)
             }
           />
-          <View style={{ marginTop: 5, backgroundColor: '#2e8b57' }}>
+          <View style={{
+              marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
+            }}
+          >
             <TouchableOpacity
               style={styles.divButton}
               onPress={() => this.props.navigation.push('fixtures', {
@@ -214,14 +217,29 @@ export default class Division extends React.Component {
             >
               <Image
                 style={{
-                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 30, height: 30,
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
                 }}
                 source={require('./assets/calendar.png')}
               />
               <Text style={styles.textButton}>Fixtures</Text>
             </TouchableOpacity>
-            <Text style={styles.textCenter}>Results</Text>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('players', {
+              statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
+              division: this.state.division,
+            })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/graph.png')}
+              />
+              <Text style={styles.textButton}>MVPs</Text>
+            </TouchableOpacity>
           </View>
+          <Text style={styles.textCenter}>Results</Text>
           <SectionList
             renderItem={({ item, index }) => (
               <View style={{ backgroundColor: '#2e8b57', paddingBottom: 10 }}>

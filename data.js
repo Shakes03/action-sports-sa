@@ -219,6 +219,50 @@ const playerList = (responseText) => {
   return (allStats.length < 1) ? noData : allStats;
 };
 
+const divisionPlayerList = (responseText) => {
+  const root = HTMLParser.parse(responseText);
+  const listObject = root.querySelectorAll('.STTable .STRow');
+  const allStats = listObject.map((i) => {
+    const stats = {};
+    stats.player = i.childNodes[0].childNodes[0].childNodes[0].rawText;
+    if (i.childNodes[4]) {
+      const downOne = (i.childNodes[12]) ? 0 : 1;
+      stats.team = i.childNodes[1].childNodes[0].rawText;
+      stats.played = i.childNodes[3].childNodes[0].rawText;
+      stats.runs = i.childNodes[4].childNodes[0].rawText;
+      stats.runsAverage = i.childNodes[5].childNodes[0].rawText;
+      stats.strikeRate = i.childNodes[6].childNodes[0].rawText;
+      stats.wickets = i.childNodes[9 - downOne].childNodes[0].rawText;
+      stats.runsConceded = i.childNodes[11 - downOne].childNodes[0].rawText;
+      stats.contribution = i.childNodes[13 - downOne].childNodes[0].rawText;
+      stats.contributionAverage = i.childNodes[14 - downOne].childNodes[0].rawText;
+    } else {
+      stats.team = '';
+      stats.played = 'N/A';
+      stats.runs = 'N/A';
+      stats.runsAverage = 'N/A';
+      stats.strikeRate = 'N/A';
+      stats.wickets = 'N/A';
+      stats.runsConceded = 'N/A';
+      stats.contribution = 'N/A';
+      stats.contributionAverage = 'N/A';
+    }
+    return stats;
+  });
+  const noData = [{
+    player: 'No player data',
+    played: 'N/A',
+    runs: 'N/A',
+    runsAverage: 'N/A',
+    strikeRate: 'N/A',
+    wickets: 'N/A',
+    runsConceded: 'N/A',
+    contribution: 'N/A',
+    contributionAverage: 'N/A',
+  }];
+  return (allStats.length < 1) ? noData : allStats;
+};
+
 module.exports = {
   arenasList,
   sportsList,
@@ -228,4 +272,5 @@ module.exports = {
   fixturesList,
   resultsList,
   playerList,
+  divisionPlayerList,
 };

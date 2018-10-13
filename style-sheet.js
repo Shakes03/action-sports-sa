@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginLeft: 100,
   },
   textCenter: {
-    marginBottom: 20,
+    margin: 10,
     color: $black,
     justifyContent: 'center',
     alignItems: 'center',

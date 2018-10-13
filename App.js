@@ -8,6 +8,7 @@ import Leagues from './screen-leagues';
 import Division from './screen-division';
 import Fixtures from './screen-fixtures';
 import Team from './screen-team';
+import Players from './screen-players';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t']);
 
@@ -53,6 +54,7 @@ export default class App extends React.Component {
       division: Division,
       fixtures: Fixtures,
       team: Team,
+      players: Players,
     }, route);
     const propsForTheScreen = {
       arenaName: this.state.arenaName,
