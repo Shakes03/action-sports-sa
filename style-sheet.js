@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   },
   line: {
     borderWidth: 0.2,
-    borderColor: $white,
+    borderColor: $black,
     margin: 10,
   },
 });

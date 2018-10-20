@@ -70,7 +70,7 @@ export default class Players extends React.Component {
                     collapse => (
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={styles.textTableBodyPlayer}>{index + 1}.{item.player} ({item.contributionAverage})</Text>
-                        <Text style={{ right: 20 }}>{item.team}</Text>
+                        <Text style={{ right: 20, position: 'absolute' }}>{item.team} - {item.division}</Text>
                         <Image
                           style={styles.chevronImage}
                           source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}

@@ -65,10 +65,13 @@ const leaguesList = (responseText, sport) => {
   return list;
 };
 
-const leaguesUrls = async (responseText, sport) => {
+const allFixturesAndStandings = (responseText, sport) => {
   const list = leaguesList(responseText, sport);
+  const distribution = arr => arr.reduce((acum, cur) => Object.assign(acum, { [cur]: (acum[cur] | 0) + 1 }), {});
+  const keysSorted = obj => Object.keys(obj).sort((a, b) => obj[b] - obj[a])
+  const fixturesUrls = keysSorted(distribution(list.map(l => `${l.fixtures.replace(/([^&]*)$/g, '').trim()}Level=Season`)))[0];
 
-  return [...new Set(list.map(l => l.standings.replace(/([^&]*)$/g, '')))];
+  return { fixtures: fixturesUrls };
 };
 
 const teamsList = (responseText) => {
@@ -228,6 +231,7 @@ const divisionPlayerList = (responseText) => {
     if (i.childNodes[4]) {
       const downOne = (i.childNodes[12]) ? 0 : 1;
       stats.team = i.childNodes[1].childNodes[0].rawText;
+      stats.division = i.childNodes[2].childNodes[0].rawText;
       stats.played = i.childNodes[3].childNodes[0].rawText;
       stats.runs = i.childNodes[4].childNodes[0].rawText;
       stats.runsAverage = i.childNodes[5].childNodes[0].rawText;
@@ -238,6 +242,7 @@ const divisionPlayerList = (responseText) => {
       stats.contributionAverage = i.childNodes[14 - downOne].childNodes[0].rawText;
     } else {
       stats.team = '';
+      stats.division = '';
       stats.played = 'N/A';
       stats.runs = 'N/A';
       stats.runsAverage = 'N/A';
@@ -267,7 +272,7 @@ module.exports = {
   arenasList,
   sportsList,
   leaguesList,
-  leaguesUrls,
+  allFixturesAndStandings,
   teamsList,
   fixturesList,
   resultsList,

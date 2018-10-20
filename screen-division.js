@@ -227,7 +227,6 @@ export default class Division extends React.Component {
               style={styles.divButton}
               onPress={() => this.props.navigation.push('players', {
               statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
-              division: this.state.division,
             })}
             >
               <Image

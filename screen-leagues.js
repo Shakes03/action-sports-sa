@@ -1,7 +1,7 @@
 import React from 'react';
 import Swipeout from 'react-native-swipeout';
 import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
-import { leaguesList } from './data';
+import { leaguesList, allFixturesAndStandings } from './data';
 
 const { styles } = require('./style-sheet');
 
@@ -27,9 +27,12 @@ export default class Leagues extends React.Component {
       .then((responseText) => {
         const { sport } = this.state;
         const list = leaguesList(responseText, sport);
+        const standingsAndFixtures = allFixturesAndStandings(responseText, sport);
         this.setState({
           isLoading: false,
           dataSource: list,
+          standings: standingsAndFixtures.standings,
+          fixtures: standingsAndFixtures.fixtures,
         }, () => {});
       })
       .catch((error) => {
@@ -52,6 +55,40 @@ export default class Leagues extends React.Component {
           source={this.state.iconPath}
         />
         <Text style={styles.header}>{this.state.sport}</Text>
+        <View style={{
+            marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
+          }}
+        >
+          <TouchableOpacity
+            style={styles.divButton}
+            onPress={() => this.props.navigation.push('fixtures', {
+            fixtures: this.state.fixtures,
+            division: 'All',
+          })}
+          >
+            <Image
+              style={{
+                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+              }}
+              source={require('./assets/calendar.png')}
+            />
+            <Text style={styles.textButton}>Fixtures</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.divButton}
+            onPress={() => this.props.navigation.push('players', {
+            statistics: this.state.fixtures.replace('Fixtures.aspx', 'Statistics.aspx'),
+          })}
+          >
+            <Image
+              style={{
+                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+              }}
+              source={require('./assets/graph.png')}
+            />
+            <Text style={styles.textButton}>MVPs</Text>
+          </TouchableOpacity>
+        </View>
         <FlatList
           data={this.state.dataSource}
           keyExtractor={(item, index) => index.toString()}
