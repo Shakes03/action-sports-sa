@@ -68,7 +68,7 @@ export default class Team extends React.Component {
                 <CollapseView
                   renderView={
                     collapse => (
-                      <View>
+                      <View style={{ marginVertical: 8 }}>
                         <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contributionAverage})</Text>
                         <Image
                           style={styles.chevronImage}

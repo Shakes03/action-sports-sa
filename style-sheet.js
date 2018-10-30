@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   textTableBodyPlayerStats: {
-    marginTop: 5,
     marginLeft: 5,
     color: $white,
     fontSize: 16,
