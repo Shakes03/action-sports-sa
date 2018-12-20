@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { YellowBox, AsyncStorage } from 'react-native';
 
 import Arenas from './screen-arenas';
@@ -10,7 +10,7 @@ import Fixtures from './screen-fixtures';
 import Team from './screen-team';
 import Players from './screen-players';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t']);
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t', 'Require cycle']);
 
 export default class App extends React.Component {
   state = {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
     arenaUrl: '',
     standingsUrl: '',
     fixturesUrl: '',
-    hasFavourite: '',
+    hasFavourite: false,
     division: '',
   }
 
@@ -47,7 +47,7 @@ export default class App extends React.Component {
   render() {
     const route = {};
     route.initialRouteName = this.state.screen;
-    const RootStack = createStackNavigator({
+    const RootStack = createAppContainer(createStackNavigator({
       arenas: Arenas,
       sports: Sports,
       leagues: Leagues,
@@ -55,7 +55,7 @@ export default class App extends React.Component {
       fixtures: Fixtures,
       team: Team,
       players: Players,
-    }, route);
+    }, route));
     const propsForTheScreen = {
       arenaName: this.state.arenaName,
       arenaUrl: this.state.arenaUrl,

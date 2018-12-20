@@ -1,5 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity,
+} from 'react-native';
 import { arenasList } from './data';
 
 const { styles } = require('./style-sheet');
@@ -8,6 +10,7 @@ export default class Arenas extends React.Component {
   static navigationOptions = {
     title: 'Arenas',
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +31,7 @@ export default class Arenas extends React.Component {
         console.error(error);
       });
   }
+
   render() {
     if (this.state.isLoading) {
       return (

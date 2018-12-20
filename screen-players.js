@@ -47,7 +47,7 @@ export default class Players extends React.Component {
         <Text style={styles.header}>{this.state.teamName}</Text>
         <ScrollView style={styles.tableCard}>
           <View style={{
- paddingLeft: 10, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
+ paddingLeft: 5, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
 }}
           >
             <Grid>
@@ -64,13 +64,13 @@ export default class Players extends React.Component {
             data={this.state.dataSource}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <View style={{ paddingLeft: 10 }}>
+              <View style={{ paddingLeft: 5 }}>
                 <CollapseView
                   renderView={
                     collapse => (
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8 }}>
                         <Text style={styles.textTableBodyPlayer}>{index + 1}.{item.player} ({item.contributionAverage})</Text>
-                        <Text style={{ right: 20, position: 'absolute' }}>{item.team} - {item.division}</Text>
+                        <Text style={{ right: 20, bottom: 22, position: 'absolute' }}>{item.team} - {item.division}</Text>
                         <Image
                           style={styles.chevronImage}
                           source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}
