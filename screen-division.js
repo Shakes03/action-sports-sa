@@ -1,7 +1,9 @@
 import React from 'react';
-import { ActivityIndicator, Modal, FlatList, SectionList, Linking, ScrollView, Text, Image, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import {
+  ActivityIndicator, Modal, FlatList, SectionList, Linking, ScrollView, Text, Image, View, TouchableOpacity, AsyncStorage,
+} from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
-import CheckBox from 'react-native-modest-checkbox';
+import CheckBox from 'react-native-check-box';
 import { teamsList, resultsList } from './data';
 
 const { styles } = require('./style-sheet');
@@ -19,7 +21,9 @@ export default class Division extends React.Component {
     const division = navigation.getParam('division', this.props.screenProps.division);
     const { hasFavourite } = this.props.screenProps;
     this.state = {
-      modalVisible: false, isLoading: true, standingsUrl, fixturesUrl, hasFavourite, pointsBreakdown: 'No points breakdown', division,
+      modalVisible: false, isLoading: true, standingsUrl, fixturesUrl, hasFavourite, pointsBreakdown: 'No points breakdown',
+      division,
+      isChecked: (hasFavourite === 'true') && (division === this.props.screenProps.division),
     };
   }
 
@@ -44,7 +48,9 @@ export default class Division extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-  async saveKey({ screen, standingsUrl, division, fixturesUrl }) {
+  async saveKey({
+    screen, standingsUrl, division, fixturesUrl,
+  }) {
     try {
       await AsyncStorage.setItem('hasFavourite', 'true');
       await AsyncStorage.setItem('screen', screen);
@@ -82,38 +88,42 @@ export default class Division extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Text style={styles.header}>{this.state.division}</Text>
-        <TouchableOpacity style={{ position: 'absolute' }} onPress={() => this.props.navigation.push('arenas', {})} >
+        <TouchableOpacity style={{ position: 'absolute' }} onPress={() => this.props.navigation.push('arenas', {})}>
           <Image
             style={{
- marginLeft: 15, marginTop: 15, width: 30, height: 30, alignSelf: 'flex-start',
-}}
+              marginLeft: 15, marginTop: 15, width: 30, height: 30, alignSelf: 'flex-start',
+            }}
             source={require('./assets/home-icon.png')}
           />
         </TouchableOpacity>
         <View style={{
- alignSelf: 'flex-end', paddingTop: 15, marginRight: 25, position: 'absolute',
-}}
+          alignSelf: 'flex-end', paddingTop: 15, marginRight: 25, position: 'absolute',
+        }}
         >
           <CheckBox
-            label=""
-            checked={(this.state.hasFavourite === 'true' && this.state.division === this.props.screenProps.division)}
-            checkedImage={require('./assets/yellow-star-icon.png')}
-            uncheckedImage={require('./assets/yellow-star-icon-grey.png')}
-            onChange={checked => ((checked.checked === true) ?
-              this.saveKey({
+            checkedImage={<Image source={require('./assets/yellow-star-icon.png')} style={{ right: 15, marginTop: 3, width: 30, height: 30, alignSelf: 'flex-start' }} />}
+            unCheckedImage={<Image source={require('./assets/yellow-star-icon-grey.png')} style={{ right: 15, marginTop: 3, width: 30, height: 30, alignSelf: 'flex-start'}} />}
+            onClick={() => {
+              this.setState({
+                hasFavourite: !this.state.isChecked,
+                isChecked: !this.state.isChecked,
+              });              
+              (!this.state.isChecked)
+              ? this.saveKey({
                 screen: 'division',
                 standingsUrl: this.state.standingsUrl,
                 division: this.state.division,
                 fixturesUrl: this.state.fixturesUrl,
-              }) :
-              this.resetKeys())
-            }
+              })
+              : this.resetKeys();     
+            }}
+            isChecked={this.state.isChecked}
           />
         </View>
         <ScrollView>
           <View style={{
- paddingLeft: 10, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1, backgroundColor: '#2e8b57',
-}}
+            paddingLeft: 10, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1, backgroundColor: '#2e8b57',
+          }}
           >
             <Grid>
               <Col size={50}><Text style={styles.textTableHeading}>TEAM</Text></Col>
@@ -130,21 +140,21 @@ export default class Division extends React.Component {
             onRequestClose={() => {}}
           >
             <View style={{
- flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-}}
+              flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+            }}
             >
               <View style={{
-  marginTop: 60, marginBottom: 30, marginHorizontal: 10, backgroundColor: '#fffafa', opacity: 0.97, borderWidth: 1, borderColor: 'white',
-}}
+                marginTop: 60, marginBottom: 30, marginHorizontal: 10, backgroundColor: '#fffafa', opacity: 0.97, borderWidth: 1, borderColor: 'white',
+              }}
               >
                 <Text style={styles.textDateBlack}>Points breakdown</Text>
                 <TouchableOpacity
                   style={{
-         alignSelf: 'flex-end', marginTop: 5, paddingRight: 15, position: 'absolute',
-        }}
+                    alignSelf: 'flex-end', marginTop: 5, paddingRight: 15, position: 'absolute',
+                  }}
                   onPress={() => {
-                     this.setModalVisible(!this.state.modalVisible);
-                   }}
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}
                 >
                   <Image
                     style={{ width: 30, height: 30, opacity: 0.6 }}
@@ -155,17 +165,17 @@ export default class Division extends React.Component {
                   data={this.state.pointsBreakdown}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item }) => {
-                  const bonusPointsList = item.points.split(' |');
-                  const bonusPointsListKeyed = bonusPointsList.map(i => ({ point: i }));
-                  return (
-                    <View>
-                      <Text style={styles.textTimeBlack}>{item.match}</Text>
-                      <FlatList
-                        data={bonusPointsListKeyed}
-                        renderItem={({ item }) => <Text style={{ marginLeft: 30 }}>{item.point}</Text>}
-                        keyExtractor={(item, index) => index.toString()}
-                      />
-                    </View>);
+                    const bonusPointsList = item.points.split(' |');
+                    const bonusPointsListKeyed = bonusPointsList.map(i => ({ point: i }));
+                    return (
+                      <View>
+                        <Text style={styles.textTimeBlack}>{item.match}</Text>
+                        <FlatList
+                          data={bonusPointsListKeyed}
+                          renderItem={({ item }) => <Text style={{ marginLeft: 30 }}>{item.point}</Text>}
+                          keyExtractor={(item, index) => index.toString()}
+                        />
+                      </View>);
                   }
                 }
                 />
@@ -181,9 +191,9 @@ export default class Division extends React.Component {
                   <Col size={50}>
                     <TouchableOpacity
                       onPress={() => this.props.navigation.push('team', {
-                      teamUrl: item.teamUrl,
-                      teamName: item.team,
-                    })}
+                        teamUrl: item.teamUrl,
+                        teamName: item.team,
+                      })}
                     >
                       <Text style={styles.textTableBodyLink}>{item.team}</Text>
                     </TouchableOpacity>
@@ -193,9 +203,9 @@ export default class Division extends React.Component {
                   <Col size={12}><Text style={styles.textTableBody}>{item.losses}</Text></Col>
                   <Col size={14}>
                     <TouchableOpacity onPress={() => {
-                        this.setState({ pointsBreakdown: item.pointsBreakdown });
-                        return this.setModalVisible(true);
-                      }}
+                      this.setState({ pointsBreakdown: item.pointsBreakdown });
+                      return this.setModalVisible(true);
+                    }}
                     >
                       <Text style={styles.textTableBodyLink}>{item.points}</Text>
                     </TouchableOpacity>
@@ -205,15 +215,15 @@ export default class Division extends React.Component {
             }
           />
           <View style={{
-              marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
-            }}
+            marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
+          }}
           >
             <TouchableOpacity
               style={styles.divButton}
               onPress={() => this.props.navigation.push('fixtures', {
-              fixtures: this.state.fixturesUrl,
-              division: this.state.division,
-            })}
+                fixtures: this.state.fixturesUrl,
+                division: this.state.division,
+              })}
             >
               <Image
                 style={{
@@ -226,8 +236,8 @@ export default class Division extends React.Component {
             <TouchableOpacity
               style={styles.divButton}
               onPress={() => this.props.navigation.push('players', {
-              statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
-            })}
+                statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
+              })}
             >
               <Image
                 style={{
@@ -242,8 +252,20 @@ export default class Division extends React.Component {
           <SectionList
             renderItem={({ item, index }) => (
               <View style={{ backgroundColor: '#2e8b57', paddingBottom: 10 }}>
-                <Text style={styles.textTime} key={index}>{item.time} at {item.court}</Text>
-                <Text style={styles.textScore} key={index}>{item.homeTeam} vs {item.awayTeam}</Text>
+                <Text style={styles.textTime} key={index}>
+                  {item.time}
+                  {' '}
+                  at
+                  {' '}
+                  {item.court}
+                </Text>
+                <Text style={styles.textScore} key={index}>
+                  {item.homeTeam}
+                  {' '}
+                  vs
+                  {' '}
+                  {item.awayTeam}
+                </Text>
                 <TouchableOpacity onPress={() => { Linking.openURL(`http://actionsport.spawtz.com${item.scoreUrl}`); }}>
                   <Text style={styles.textScoreLink} key={index}>{item.score}</Text>
                 </TouchableOpacity>

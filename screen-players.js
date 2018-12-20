@@ -47,7 +47,7 @@ export default class Players extends React.Component {
         <Text style={styles.header}>{this.state.teamName}</Text>
         <ScrollView style={styles.tableCard}>
           <View style={{
- paddingLeft: 10, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
+ paddingLeft: 5, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
 }}
           >
             <Grid>
@@ -64,7 +64,7 @@ export default class Players extends React.Component {
             data={this.state.dataSource}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <View style={{ paddingLeft: 10 }}>
+              <View style={{ paddingLeft: 5 }}>
                 <CollapseView
                   renderView={
                     collapse => (

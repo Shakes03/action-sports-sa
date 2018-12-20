@@ -10,7 +10,7 @@ import Fixtures from './screen-fixtures';
 import Team from './screen-team';
 import Players from './screen-players';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t']);
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t', 'Require cycle']);
 
 export default class App extends React.Component {
   state = {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
     arenaUrl: '',
     standingsUrl: '',
     fixturesUrl: '',
-    hasFavourite: '',
+    hasFavourite: false,
     division: '',
   }
 
