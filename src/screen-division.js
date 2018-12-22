@@ -6,7 +6,7 @@ import { Col, Grid } from 'react-native-easy-grid';
 import CheckBox from 'react-native-check-box';
 import { teamsList, resultsList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Division extends React.Component {
   static navigationOptions = {
@@ -120,11 +120,43 @@ export default class Division extends React.Component {
             isChecked={this.state.isChecked}
           />
         </View>
-        <ScrollView>
-          <View style={{
-            paddingLeft: 10, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1, backgroundColor: '#2e8b57',
-          }}
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between',
+        }}
+        >
+          <TouchableOpacity
+            style={styles.divButton}
+            onPress={() => this.props.navigation.push('fixtures', {
+              fixtures: this.state.fixturesUrl,
+              division: this.state.division,
+            })}
           >
+            <Image
+              style={{
+                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+              }}
+              source={require('./assets/calendar.png')}
+            />
+            <Text style={styles.textButton}>Fixtures</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.divButton}
+            onPress={() => this.props.navigation.push('players', {
+              statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
+            })}
+          >
+            <Image
+              style={{
+                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+              }}
+              source={require('./assets/graph.png')}
+            />
+            <Text style={styles.textButton}>MVPs</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.fullLine} />
+        <ScrollView>
+          <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
             <Grid>
               <Col size={50}><Text style={styles.textTableHeading}>TEAM</Text></Col>
               <Col size={12}><Text style={styles.textTableHeading}>P</Text></Col>
@@ -133,6 +165,7 @@ export default class Division extends React.Component {
               <Col size={14}><Text style={styles.textTableHeading}>PTS</Text></Col>
             </Grid>
           </View>
+          <View style={styles.fullLine} />
           <Modal
             animationType="fade"
             transparent
@@ -143,9 +176,11 @@ export default class Division extends React.Component {
               flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
             }}
             >
-              <View style={{
-                marginTop: 60, marginBottom: 30, marginHorizontal: 10, backgroundColor: '#fffafa', opacity: 0.97, borderWidth: 1, borderColor: 'white',
-              }}
+              <View
+                elevation={6}
+                style={{
+                  marginTop: 60, marginBottom: 30, marginHorizontal: 10, backgroundColor: '#fffafa', opacity: 0.97, borderWidth: 1, borderColor: 'white',
+                }}
               >
                 <Text style={styles.textDateBlack}>Points breakdown</Text>
                 <TouchableOpacity
@@ -214,44 +249,11 @@ export default class Division extends React.Component {
               </View>)
             }
           />
-          <View style={{
-            marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
-          }}
-          >
-            <TouchableOpacity
-              style={styles.divButton}
-              onPress={() => this.props.navigation.push('fixtures', {
-                fixtures: this.state.fixturesUrl,
-                division: this.state.division,
-              })}
-            >
-              <Image
-                style={{
-                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-                }}
-                source={require('./assets/calendar.png')}
-              />
-              <Text style={styles.textButton}>Fixtures</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.divButton}
-              onPress={() => this.props.navigation.push('players', {
-                statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
-              })}
-            >
-              <Image
-                style={{
-                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-                }}
-                source={require('./assets/graph.png')}
-              />
-              <Text style={styles.textButton}>MVPs</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.textCenter}>Results</Text>
+          <View style={styles.fullLine} />
+          <Text style={styles.header}>Results</Text>
           <SectionList
             renderItem={({ item, index }) => (
-              <View style={{ backgroundColor: '#2e8b57', paddingBottom: 10 }}>
+              <View style={{ paddingBottom: 10 }}>
                 <Text style={styles.textTime} key={index}>
                   {item.time}
                   {' '}
@@ -272,7 +274,7 @@ export default class Division extends React.Component {
               </View>)
             }
             renderSectionHeader={({ section: { date } }) => (
-              <View style={{ backgroundColor: '#2e8b57', marginTop: 5 }}>
+              <View style={{ marginTop: 5 }}>
                 <Text style={styles.textDate}>{date}</Text>
                 <View style={styles.line} />
               </View>

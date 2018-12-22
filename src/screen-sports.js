@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import { sportsList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Sports extends React.Component {
   static navigationOptions = {
@@ -49,6 +49,7 @@ export default class Sports extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Text style={styles.header}>{this.state.arenaName}</Text>
+        <View style={styles.fullLine} />
         <FlatList
           data={this.state.dataSource}
           renderItem={({ item }) => {
@@ -82,8 +83,9 @@ export default class Sports extends React.Component {
                       style={styles.cardImage}
                       source={icon}
                     />
-                    <Text style={styles.text}>{item.name}</Text>
+                    <Text style={styles.textCard}>{item.name}</Text>
                   </TouchableOpacity>
+                  <View style={styles.fullLine} />
                 </View>);
             }}
           keyExtractor={(item, index) => index.toString()}

@@ -4,7 +4,7 @@ import { Col, Grid } from 'react-native-easy-grid';
 import CollapseView from 'react-native-collapse-view';
 import { divisionPlayerList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Players extends React.Component {
   static navigationOptions = {
@@ -45,6 +45,7 @@ export default class Players extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Text style={styles.header}>{this.state.teamName}</Text>
+        <View style={styles.fullLine} />
         <ScrollView style={styles.tableCard}>
           <View style={{
  paddingLeft: 5, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
@@ -60,6 +61,7 @@ export default class Players extends React.Component {
               <Col size={15}><Text style={styles.textTableHeading}>CA</Text></Col>
             </Grid>
           </View>
+          <View style={styles.fullLine} />
           <FlatList
             data={this.state.dataSource}
             keyExtractor={(item, index) => index.toString()}
@@ -70,7 +72,7 @@ export default class Players extends React.Component {
                     collapse => (
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8 }}>
                         <Text style={styles.textTableBodyPlayer}>{index + 1}.{item.player} ({item.contributionAverage})</Text>
-                        <Text style={{ right: 20, bottom: 22, position: 'absolute' }}>{item.team} - {item.division}</Text>
+                        <Text style={{ fontSize: 12, right: 20, bottom: 22, position: 'absolute' }}>{item.team} - {item.division}</Text>
                         <Image
                           style={styles.chevronImage}
                           source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}

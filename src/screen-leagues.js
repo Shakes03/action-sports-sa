@@ -1,14 +1,17 @@
 import React from 'react';
 import Swipeout from 'react-native-swipeout';
-import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+ ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity 
+} from 'react-native';
 import { leaguesList, allFixturesAndStandings } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Leagues extends React.Component {
   static navigationOptions = {
     title: 'Leagues',
   };
+
   constructor(props) {
     super(props);
     const { navigation } = this.props;
@@ -39,6 +42,7 @@ export default class Leagues extends React.Component {
         console.error(error);
       });
   }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -56,15 +60,15 @@ export default class Leagues extends React.Component {
         />
         <Text style={styles.header}>{this.state.sport}</Text>
         <View style={{
-            marginTop: 5, backgroundColor: '#2e8b57', flexDirection: 'row', justifyContent: 'space-between',
-          }}
+          marginTop: 5, flexDirection: 'row', justifyContent: 'space-between',
+        }}
         >
           <TouchableOpacity
             style={styles.divButton}
             onPress={() => this.props.navigation.push('fixtures', {
-            fixtures: this.state.fixtures,
-            division: 'All',
-          })}
+              fixtures: this.state.fixtures,
+              division: 'All',
+            })}
           >
             <Image
               style={{
@@ -77,8 +81,8 @@ export default class Leagues extends React.Component {
           <TouchableOpacity
             style={styles.divButton}
             onPress={() => this.props.navigation.push('players', {
-            statistics: this.state.fixtures.replace('Fixtures.aspx', 'Statistics.aspx'),
-          })}
+              statistics: this.state.fixtures.replace('Fixtures.aspx', 'Statistics.aspx'),
+            })}
           >
             <Image
               style={{
@@ -89,6 +93,7 @@ export default class Leagues extends React.Component {
             <Text style={styles.textButton}>MVPs</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.fullLine} />
         <FlatList
           data={this.state.dataSource}
           keyExtractor={(item, index) => index.toString()}
@@ -98,39 +103,38 @@ export default class Leagues extends React.Component {
                 right={[{
                   component: <TouchableOpacity
                     style={styles.swipeOutButton}
-                    onPress={() =>
-                      this.props.navigation.push('fixtures', {
-                      fixtures: item.fixtures,
-                      division: item.division,
-                    })}
+                    onPress={() => this.props.navigation.push('fixtures', {
+                        fixtures: item.fixtures,
+                        division: item.division,
+                      })}
                   >
                     <Text style={{ color: 'white' }}>   Fixtures   </Text>
-                             </TouchableOpacity>,
+                  </TouchableOpacity>,
                 }, {
                   component: <TouchableOpacity
                     style={styles.swipeOutButton}
-                    onPress={() =>
-                    this.props.navigation.push('division', {
-                    standings: item.standings,
-                    division: item.division,
-                    fixtures: item.fixtures,
-                    })}
+                    onPress={() => this.props.navigation.push('division', {
+                        standings: item.standings,
+                        division: item.division,
+                        fixtures: item.fixtures,
+                      })}
                   >
                     <Text style={{ color: 'white' }}>  Standings  </Text>
-                             </TouchableOpacity>,
+                  </TouchableOpacity>,
                 }]}
                 left={[]}
                 autoClose
               >
                 <View style={styles.card}>
                   <Text style={styles.textLeague}>{item.season}</Text>
-                  <Text style={styles.textDivision}>{item.division}</Text>
+                  <Text style={styles.textCard}>{item.division}</Text>
                   <Image
                     style={styles.chevronImage}
                     source={require('./assets/double-arrow-left.png')}
-                  />
+                  />                  
                 </View>
               </Swipeout>
+              <View style={styles.fullLine} />
             </View>)
           }
         />

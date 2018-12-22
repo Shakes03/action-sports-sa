@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { arenasList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Arenas extends React.Component {
   static navigationOptions = {
@@ -46,11 +46,8 @@ export default class Arenas extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Image
-          style={styles.headerImage}
-          source={require('./assets/Multi_Sport.png')}
-        />
         <Text style={styles.header}>Arenas</Text>
+        <View style={styles.fullLine} />
         <FlatList
           data={this.state.dataSource}
           renderItem={({ item }) => (
@@ -67,6 +64,7 @@ export default class Arenas extends React.Component {
               >
                 <Text style={styles.textCard}>{item.name}</Text>
               </TouchableOpacity>
+              <View style={styles.fullLine} />
             </View>)}
           keyExtractor={(item, index) => index.toString()}
         />
