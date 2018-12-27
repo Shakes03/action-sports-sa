@@ -46,8 +46,7 @@ export default class Arenas extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>Arenas</Text>
-        <View style={styles.fullLine} />
+        <View style={styles.header}><Text style={styles.textHeader}>Arenas</Text></View>
         <FlatList
           data={this.state.dataSource}
           renderItem={({ item }) => (

@@ -1,11 +1,5 @@
-import { StyleSheet } from 'react-native';
 import {
-  $green,
-  $white,
-  $offwhite,
   $black,
-  $darkGreen,
-  $deepskyblue,
 } from './colors';
 
 const styles = {
@@ -15,7 +9,7 @@ const styles = {
     margin: 10,
   },
   fullLine: {
-    borderWidth: 0.3,
+    borderWidth: 0.2,
     borderColor: $black,
     opacity: 0.8,
   },

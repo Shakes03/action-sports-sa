@@ -87,8 +87,8 @@ export default class Division extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>{this.state.division}</Text>
-        <TouchableOpacity style={{ position: 'absolute' }} onPress={() => this.props.navigation.push('arenas', {})}>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.division}</Text></View>
+        <TouchableOpacity style={{ elevation: 5, position: 'absolute' }} onPress={() => this.props.navigation.push('arenas', {})}>
           <Image
             style={{
               marginLeft: 15, marginTop: 15, width: 30, height: 30, alignSelf: 'flex-start',
@@ -97,7 +97,7 @@ export default class Division extends React.Component {
           />
         </TouchableOpacity>
         <View style={{
-          alignSelf: 'flex-end', paddingTop: 15, marginRight: 25, position: 'absolute',
+          elevation: 5, alignSelf: 'flex-end', paddingTop: 15, marginRight: 25, position: 'absolute',
         }}
         >
           <CheckBox
@@ -250,7 +250,7 @@ export default class Division extends React.Component {
             }
           />
           <View style={styles.fullLine} />
-          <Text style={styles.header}>Results</Text>
+          <View style={styles.header}><Text style={styles.textHeader}>Results</Text></View>
           <SectionList
             renderItem={({ item, index }) => (
               <View style={{ paddingBottom: 10 }}>

@@ -48,7 +48,7 @@ export default class Sports extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>{this.state.arenaName}</Text>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.arenaName}</Text></View>
         <View style={styles.fullLine} />
         <FlatList
           data={this.state.dataSource}

@@ -19,6 +19,12 @@ const styles = StyleSheet.create(Object.assign({
     justifyContent: 'center',
   },
   header: {
+    backgroundColor: 'darkseagreen',
+    elevation: 3,
+    borderWidth: 0.2,
+    borderColor: 'green',
+  },
+  textHeader: {
     margin: 15,
     marginLeft: 45,
     marginRight: 45,

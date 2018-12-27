@@ -42,7 +42,7 @@ export default class Fixtures extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>{this.state.division}</Text>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.division}</Text></View>
         <View style={styles.fullLine} />
         <View style={{ flex: 1 }}>
           <SectionList

@@ -58,7 +58,7 @@ export default class Leagues extends React.Component {
           style={styles.headerImage}
           source={this.state.iconPath}
         />
-        <Text style={styles.header}>{this.state.sport}</Text>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.sport}</Text></View>
         <View style={{
           marginTop: 5, flexDirection: 'row', justifyContent: 'space-between',
         }}
