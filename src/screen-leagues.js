@@ -59,41 +59,43 @@ export default class Leagues extends React.Component {
           source={this.state.iconPath}
         />
         <View style={styles.header}><Text style={styles.textHeader}>{this.state.sport}</Text></View>
-        <View style={{
-          marginTop: 5, flexDirection: 'row', justifyContent: 'space-between',
-        }}
-        >
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('fixtures', {
-              fixtures: this.state.fixtures,
-              division: 'All',
-            })}
+        <View style={styles.elevation}>
+          <View style={{
+            marginTop: 5, flexDirection: 'row', justifyContent: 'space-between',
+          }}
           >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/calendar.png')}
-            />
-            <Text style={styles.textButton}>Fixtures</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('players', {
-              statistics: this.state.fixtures.replace('Fixtures.aspx', 'Statistics.aspx'),
-            })}
-          >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/graph.png')}
-            />
-            <Text style={styles.textButton}>MVPs</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('fixtures', {
+                fixtures: this.state.fixtures,
+                division: 'All',
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/calendar.png')}
+              />
+              <Text style={styles.textButton}>Fixtures</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('players', {
+                statistics: this.state.fixtures.replace('Fixtures.aspx', 'Statistics.aspx'),
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/graph.png')}
+              />
+              <Text style={styles.textButton}>MVPs</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.fullLine} />
         </View>
-        <View style={styles.fullLine} />
         <FlatList
           data={this.state.dataSource}
           keyExtractor={(item, index) => index.toString()}

@@ -120,6 +120,7 @@ export default class Division extends React.Component {
             isChecked={this.state.isChecked}
           />
         </View>
+        <View style={styles.elevation}>
         <View style={{
           flexDirection: 'row', justifyContent: 'space-between',
         }}
@@ -154,7 +155,7 @@ export default class Division extends React.Component {
             <Text style={styles.textButton}>MVPs</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.fullLine} />
+        </View>
         <ScrollView>
           <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
             <Grid>
@@ -274,7 +275,8 @@ export default class Division extends React.Component {
               </View>)
             }
             renderSectionHeader={({ section: { date } }) => (
-              <View style={{ marginTop: 5 }}>
+              <View>
+                <View style={styles.line} />
                 <Text style={styles.textDate}>{date}</Text>
                 <View style={styles.line} />
               </View>

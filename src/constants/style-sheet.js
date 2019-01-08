@@ -24,6 +24,10 @@ const styles = StyleSheet.create(Object.assign({
     borderWidth: 0.2,
     borderColor: 'green',
   },
+  elevation: {
+    elevation: 3,
+    backgroundColor: 'white',
+  },
   textHeader: {
     margin: 15,
     marginLeft: 45,
@@ -83,7 +87,6 @@ const styles = StyleSheet.create(Object.assign({
     fontSize: 18,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 10,
   },
   textDateBlack: {
     color: $black,
@@ -163,8 +166,8 @@ const styles = StyleSheet.create(Object.assign({
   },
   cardImage: {
     marginLeft: 20,
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     position: 'absolute',
   },
   headerImage: {

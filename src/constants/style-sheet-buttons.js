@@ -16,6 +16,7 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'darkseagreen',
+    elevation: 3,
   },
   textButton: {
     color: $black,

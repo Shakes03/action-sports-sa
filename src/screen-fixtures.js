@@ -72,6 +72,7 @@ export default class Fixtures extends React.Component {
               }
             renderSectionHeader={({ section: { date } }) => (
               <View style={styles.fixturesCardSection}>
+                <View style={styles.line} />
                 <Text style={styles.textDate}>{date}</Text>
                 <View style={styles.line} />
               </View>
