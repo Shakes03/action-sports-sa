@@ -26,11 +26,11 @@ const leaguesList = (responseText, sport) => {
   const allLeagues = [];
   let list;
   if (listObject.length > 0 && isNotLeague.length > 0) {
-    if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ')) {
+    if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ') || isNotLeague[0].childNodes[0].rawText.includes('Witbank ')) {
       allLeagues.push({ [isNotLeague[0].childNodes[0].rawText.replace(' Current Leagues', '')]: [] });
     }
     listObject.map((x) => {
-      if (x.childNodes[1].childNodes[3]) {
+      if (x.childNodes[1].childNodes && x.childNodes[1].childNodes[3]) {
         allLeagues.push({ [x.childNodes[1].childNodes[3].childNodes[0].rawText]: [] });
       }
       const arra =
@@ -70,8 +70,7 @@ const allFixturesAndStandings = (responseText, sport) => {
   const distribution = arr => arr.reduce((acum, cur) => Object.assign(acum, { [cur]: (acum[cur] | 0) + 1 }), {});
   const keysSorted = obj => Object.keys(obj).sort((a, b) => obj[b] - obj[a])
   const fixturesUrls = keysSorted(distribution(list.map(l => `${l.fixtures.replace(/([^&]*)$/g, '').trim()}Level=Season`)))[0];
-
-  return { fixtures: fixturesUrls };
+  return { fixtures: fixturesUrls || '/' };
 };
 
 const teamsList = (responseText) => {

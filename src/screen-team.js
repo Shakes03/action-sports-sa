@@ -4,7 +4,7 @@ import { Col, Grid } from 'react-native-easy-grid';
 import CollapseView from 'react-native-collapse-view';
 import { playerList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Team extends React.Component {
   static navigationOptions = {
@@ -44,7 +44,8 @@ export default class Team extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>{this.state.teamName}</Text>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.teamName}</Text></View>
+        <View style={styles.fullLine} />
         <ScrollView style={styles.tableCard}>
           <View style={{
  paddingLeft: 5, paddingBottom: 10, borderBottomColor: 'white', borderBottomWidth: 1,
@@ -60,6 +61,7 @@ export default class Team extends React.Component {
               <Col size={15}><Text style={styles.textTableHeading}>CA</Text></Col>
             </Grid>
           </View>
+          <View style={styles.fullLine} />
           <FlatList
             data={this.state.dataSource}
             keyExtractor={(item, index) => index.toString()}

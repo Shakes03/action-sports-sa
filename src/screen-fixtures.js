@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, TouchableOpacity } from 'react-native';
 import { fixturesList } from './data';
 
-const { styles } = require('./style-sheet');
+const { styles } = require('../src/constants/style-sheet');
 
 export default class Fixtures extends React.Component {
   static navigationOptions = {
@@ -42,7 +42,8 @@ export default class Fixtures extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={styles.header}>{this.state.division}</Text>
+        <View style={styles.header}><Text style={styles.textHeader}>{this.state.division}</Text></View>
+        <View style={styles.fullLine} />
         <View style={{ flex: 1 }}>
           <SectionList
             renderItem={({ item, index }) => (
@@ -71,6 +72,7 @@ export default class Fixtures extends React.Component {
               }
             renderSectionHeader={({ section: { date } }) => (
               <View style={styles.fixturesCardSection}>
+                <View style={styles.line} />
                 <Text style={styles.textDate}>{date}</Text>
                 <View style={styles.line} />
               </View>
