@@ -102,8 +102,8 @@ export default class Team extends React.Component {
             <AdMobBanner
               adSize="fullBanner"
               adUnitID="ca-app-pub-1949277801081319/6218814838"
-              testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
-              onAdFailedToLoad={error => console.error(error)}
+              // testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
+              onAdFailedToLoad={error => console.log(error)}
             />
           </View>
         </ScrollView>
