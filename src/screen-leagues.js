@@ -1,5 +1,6 @@
 import React from 'react';
 import Swipeout from 'react-native-swipeout';
+import { AdMobBanner } from 'react-native-admob';
 import {
  ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity 
 } from 'react-native';
@@ -140,6 +141,14 @@ export default class Leagues extends React.Component {
             </View>)
           }
         />
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <AdMobBanner
+            adSize="fullBanner"
+            adUnitID="ca-app-pub-1949277801081319/6218814838"
+            testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
+            onAdFailedToLoad={error => console.error(error)}
+          />
+        </View>
       </View>
     );
   }

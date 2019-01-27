@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, TouchableOpacity } from 'react-native';
+import { AdMobBanner } from 'react-native-admob';
 import { fixturesList } from './data';
 
 const { styles } = require('../src/constants/style-sheet');
@@ -80,6 +81,14 @@ export default class Fixtures extends React.Component {
             sections={this.state.dataSource}
             keyExtractor={(item, index) => item + index}
           />
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AdMobBanner
+              adSize="fullBanner"
+              adUnitID="ca-app-pub-1949277801081319/6218814838"
+              testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
+              onAdFailedToLoad={error => console.error(error)}
+            />
+          </View>
         </View>
       </View>
     );
