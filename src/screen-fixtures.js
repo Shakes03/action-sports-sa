@@ -9,6 +9,7 @@ export default class Fixtures extends React.Component {
   static navigationOptions = {
     title: 'Fixtures',
   };
+
   constructor(props) {
     super(props);
     const { navigation } = this.props;
@@ -32,6 +33,7 @@ export default class Fixtures extends React.Component {
         console.error(error);
       });
   }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -62,9 +64,9 @@ export default class Fixtures extends React.Component {
                   <Text style={styles.textVs} key={index}>vs</Text>
                   <TouchableOpacity
                     onPress={() => this.props.navigation.push('team', {
-                        teamUrl: item.awayTeamUrl,
-                        teamName: item.awayTeam,
-                      })}
+                      teamUrl: item.awayTeamUrl,
+                      teamName: item.awayTeam,
+                    })}
                   >
                     <Text style={styles.textVsLink}>{item.awayTeam}</Text>
                   </TouchableOpacity>
@@ -77,15 +79,14 @@ export default class Fixtures extends React.Component {
                 <Text style={styles.textDate}>{date}</Text>
                 <View style={styles.line} />
               </View>
-              )}
+            )}
             sections={this.state.dataSource}
             keyExtractor={(item, index) => item + index}
           />
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <AdMobBanner
-              adSize="fullBanner"
+              adSize="smartBanner"
               adUnitID="ca-app-pub-1949277801081319/6218814838"
-              // testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
               onAdFailedToLoad={error => console.log(error)}
             />
           </View>

@@ -45,16 +45,33 @@ export default class Arenas extends React.Component {
         </View>);
     }
 
+    function adBanner(index) {
+      let adB;
+      if (index > 0 && index % 6 === 0) {
+        adB = (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AdMobBanner
+              adSize="smartBanner"
+              adUnitID="ca-app-pub-1949277801081319/6218814838"
+              onAdFailedToLoad={error => console.log(error)}
+            />
+          </View>
+        );
+      } else adB = <View></View>
+      return adB;
+    }
+
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.header}><Text style={styles.textHeader}>Arenas</Text></View>
         <FlatList
           data={this.state.dataSource}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={{
               flex: 1,
             }}
             >
+              {adBanner(index)}
               <TouchableOpacity
                 style={styles.card}
                 onPress={() => this.props.navigation.push('sports', {
@@ -68,14 +85,6 @@ export default class Arenas extends React.Component {
             </View>)}
           keyExtractor={(item, index) => index.toString()}
         />
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <AdMobBanner
-            adSize="fullBanner"
-            adUnitID="ca-app-pub-1949277801081319/6218814838"
-            // testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
-            onAdFailedToLoad={error => console.log(error)}
-          />
-        </View>
       </View>);
   }
 }

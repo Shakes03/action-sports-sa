@@ -122,40 +122,47 @@ export default class Division extends React.Component {
           />
         </View>
         <View style={styles.elevation}>
-        <View style={{
-          flexDirection: 'row', justifyContent: 'space-between',
-        }}
-        >
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('fixtures', {
-              fixtures: this.state.fixturesUrl,
-              division: this.state.division,
-            })}
-          >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/calendar.png')}
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AdMobBanner
+              adSize="smartBanner"
+              adUnitID="ca-app-pub-1949277801081319/6218814838"
+              onAdFailedToLoad={error => console.log(error)}
             />
-            <Text style={styles.textButton}>Fixtures</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('players', {
-              statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
-            })}
+          </View>
+          <View style={{
+            flexDirection: 'row', justifyContent: 'space-between',
+          }}
           >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/graph.png')}
-            />
-            <Text style={styles.textButton}>MVPs</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('fixtures', {
+                fixtures: this.state.fixturesUrl,
+                division: this.state.division,
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/calendar.png')}
+              />
+              <Text style={styles.textButton}>Fixtures</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('players', {
+                statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/graph.png')}
+              />
+              <Text style={styles.textButton}>MVPs</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <ScrollView>
           <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
@@ -285,14 +292,6 @@ export default class Division extends React.Component {
             sections={this.state.dataResults}
             keyExtractor={(item, index) => item + index}
           />
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <AdMobBanner
-              adSize="fullBanner"
-              adUnitID="ca-app-pub-1949277801081319/6218814838"
-              // testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
-              onAdFailedToLoad={error => console.log(error)}
-            />
-          </View>
         </ScrollView>
       </View>
     );

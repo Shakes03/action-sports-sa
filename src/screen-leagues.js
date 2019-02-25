@@ -53,6 +53,22 @@ export default class Leagues extends React.Component {
       );
     }
 
+    function adBanner(index) {
+      let adB;
+      if (index > 0 && index % 6 === 0) {
+        adB = (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AdMobBanner
+              adSize="smartBanner"
+              adUnitID="ca-app-pub-1949277801081319/6218814838"
+              onAdFailedToLoad={error => console.log(error)}
+            />
+          </View>
+        );
+      } else adB = <View></View>
+      return adB;
+    }
+
     return (
       <View style={{ flex: 1 }}>
         <Image
@@ -100,8 +116,9 @@ export default class Leagues extends React.Component {
         <FlatList
           data={this.state.dataSource}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={{ flex: 1 }}>
+              {adBanner(index)}
               <Swipeout
                 right={[{
                   component: <TouchableOpacity
@@ -141,14 +158,6 @@ export default class Leagues extends React.Component {
             </View>)
           }
         />
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <AdMobBanner
-            adSize="fullBanner"
-            adUnitID="ca-app-pub-1949277801081319/6218814838"
-            // testDevices={[AdMobBanner.simulatorId, '554B509BCE93C64AB0298D2F72E6505B']}
-            onAdFailedToLoad={error => console.log(error)}
-          />
-        </View>
       </View>
     );
   }
