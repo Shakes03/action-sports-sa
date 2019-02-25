@@ -1,4 +1,5 @@
 import React from 'react';
+import { AdMobBanner } from 'react-native-admob';
 import { ActivityIndicator, FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import { sportsList } from './data';
 
@@ -90,6 +91,13 @@ export default class Sports extends React.Component {
             }}
           keyExtractor={(item, index) => index.toString()}
         />
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <AdMobBanner
+            adSize="smartBanner"
+            adUnitID="ca-app-pub-1949277801081319/6218814838"
+            onAdFailedToLoad={error => console.log(error)}
+          />
+        </View>
       </View>
     );
   }

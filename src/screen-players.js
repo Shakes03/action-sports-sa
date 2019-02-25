@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, FlatList, ScrollView, Text, Image, View } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 import CollapseView from 'react-native-collapse-view';
+import { AdMobBanner } from 'react-native-admob';
 import { divisionPlayerList } from './data';
 
 const { styles } = require('../src/constants/style-sheet');
@@ -99,6 +100,13 @@ export default class Players extends React.Component {
           }
           />
         </ScrollView>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <AdMobBanner
+            adSize="smartBanner"
+            adUnitID="ca-app-pub-1949277801081319/6218814838"
+            onAdFailedToLoad={error => console.log(error)}
+          />
+        </View>
       </View>
     );
   }

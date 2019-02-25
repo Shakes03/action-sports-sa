@@ -1,4 +1,5 @@
 import React from 'react';
+import { AdMobBanner } from 'react-native-admob';
 import {
   ActivityIndicator, Modal, FlatList, SectionList, Linking, ScrollView, Text, Image, View, TouchableOpacity, AsyncStorage,
 } from 'react-native';
@@ -121,40 +122,47 @@ export default class Division extends React.Component {
           />
         </View>
         <View style={styles.elevation}>
-        <View style={{
-          flexDirection: 'row', justifyContent: 'space-between',
-        }}
-        >
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('fixtures', {
-              fixtures: this.state.fixturesUrl,
-              division: this.state.division,
-            })}
-          >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/calendar.png')}
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AdMobBanner
+              adSize="smartBanner"
+              adUnitID="ca-app-pub-1949277801081319/6218814838"
+              onAdFailedToLoad={error => console.log(error)}
             />
-            <Text style={styles.textButton}>Fixtures</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.divButton}
-            onPress={() => this.props.navigation.push('players', {
-              statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
-            })}
+          </View>
+          <View style={{
+            flexDirection: 'row', justifyContent: 'space-between',
+          }}
           >
-            <Image
-              style={{
-                position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
-              }}
-              source={require('./assets/graph.png')}
-            />
-            <Text style={styles.textButton}>MVPs</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('fixtures', {
+                fixtures: this.state.fixturesUrl,
+                division: this.state.division,
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/calendar.png')}
+              />
+              <Text style={styles.textButton}>Fixtures</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.divButton}
+              onPress={() => this.props.navigation.push('players', {
+                statistics: this.state.fixturesUrl.replace('Fixtures.aspx', 'Statistics.aspx'),
+              })}
+            >
+              <Image
+                style={{
+                  position: 'absolute', marginLeft: 15, marginTop: 15, width: 25, height: 25,
+                }}
+                source={require('./assets/graph.png')}
+              />
+              <Text style={styles.textButton}>MVPs</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <ScrollView>
           <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
