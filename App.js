@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { YellowBox, AsyncStorage } from 'react-native';
+import { YellowBox } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Arenas from './src/screen-arenas';
 import Sports from './src/screen-sports';
@@ -10,7 +11,7 @@ import Fixtures from './src/screen-fixtures';
 import Team from './src/screen-team';
 import Players from './src/screen-players';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t', 'Require cycle']);
+YellowBox.ignoreWarnings(['Warning', 'Module RCTImageLoader', 'Require cycle', 'Accessing']);
 
 export default class App extends React.Component {
   state = {
