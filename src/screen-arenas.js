@@ -21,14 +21,15 @@ export default class Arenas extends React.Component {
 
   componentDidMount() {
     return fetch('http://actionsport.spawtz.com/External/Fixtures/')
-      .then(response => response.text())
+      .then(resposne => resposne.text())
       .then((responseText) => {
         const list = arenasList(responseText);
         this.setState({
           isLoading: false,
           dataSource: list,
         }, () => {});
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -36,11 +37,7 @@ export default class Arenas extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{
-          flex: 1,
-          padding: 20,
-        }}
-        >
+        <View style={{ flex: 1, padding: 20 }}>
           <ActivityIndicator size="large" style={styles.activity} />
         </View>);
     }
@@ -57,7 +54,7 @@ export default class Arenas extends React.Component {
             />
           </View>
         );
-      } else adB = <View></View>
+      } else adB = <View />;
       return adB;
     }
 

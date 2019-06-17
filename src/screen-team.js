@@ -1,8 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, ScrollView, Text, Image, View } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
-import CollapseView from 'react-native-collapse-view';
-import { AdMobBanner } from 'react-native-admob';
+import Accordion from 'react-native-collapsible/Accordion';
+import { AdMobBanner, AdMobInterstitial } from 'react-native-admob';
 import { playerList } from './data';
 
 const { styles } = require('../src/constants/style-sheet');
@@ -16,10 +16,15 @@ export default class Team extends React.Component {
     const { navigation } = this.props;
     const teamUrl = navigation.getParam('teamUrl', 'NO-team');
     const teamName = navigation.getParam('teamName', 'Players');
-    this.state = { isLoading: true, teamUrl, teamName };
+    const activeSections = [0];
+    this.state = { isLoading: true, teamUrl, teamName, activeSections };
   }
 
   componentDidMount() {
+    AdMobInterstitial.setAdUnitID('ca-app-pub-1949277801081319/5088894824');
+    AdMobInterstitial.requestAd()
+      .then(() => AdMobInterstitial.showAd())
+      .catch(err => console.log(err));
     return fetch(`http://actionsport.spawtz.com/External/Fixtures/${this.state.teamUrl}`)
       .then(response => response.text())
       .then((responseText) => {
@@ -63,40 +68,35 @@ export default class Team extends React.Component {
             </Grid>
           </View>
           <View style={styles.fullLine} />
-          <FlatList
-            data={this.state.dataSource}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={{ paddingLeft: 5 }}>
-                <CollapseView
-                  renderView={
-                    collapse => (
-                      <View style={{ marginVertical: 8 }}>
-                        <Text style={styles.textTableBodyPlayer}>{item.player} ({item.contributionAverage})</Text>
-                        <Image
-                          style={styles.chevronImage}
-                          source={(collapse) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}
-                        />
-                      </View>
-                    )
-                  }
-                  renderCollapseView={
-                    collapse => (
-                      <Grid>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.played}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runs}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runsAverage}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.wickets}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runsConceded}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.contribution}</Text></Col>
-                        <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.contributionAverage}</Text></Col>
-                      </Grid>
-                    )
-                  }
+          <Accordion
+            expandMultiple={true}
+            activeSections={this.state.activeSections}
+            sections={this.state.dataSource}
+            renderSectionTitle={() => (
+              <View />
+            )}
+            renderHeader={(item, index) => (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8 }}>
+                <Text style={styles.textTableBodyPlayer}>{index + 1}.{item.player} ({item.contributionAverage})</Text>
+                <Text style={{ fontSize: 12, right: 20, bottom: 22, position: 'absolute' }}>{item.team} - {item.division}</Text>
+                <Image
+                  style={styles.chevronImage}
+                  source={(this.state.activeSections.includes(index)) ? require('./assets/arrow-up.png') : require('./assets/arrow-down.png')}
                 />
-
-              </View>)
-          }
+              </View>
+            )}
+            renderContent={item => (
+              <Grid>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.played}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runs}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runsAverage}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.wickets}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.runsConceded}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.contribution}</Text></Col>
+                <Col size={15}><Text style={styles.textTableBodyPlayerStats}>{item.contributionAverage}</Text></Col>
+              </Grid>
+            )}
+            onChange={(indexes) => { this.setState({ activeSections: indexes }); }}
           />
         </ScrollView>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
