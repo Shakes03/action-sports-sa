@@ -1,11 +1,15 @@
 import React from 'react';
 import {
-  ActivityIndicator, FlatList, Text, View, TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
-import { AdMobBanner } from 'react-native-admob';
-import { arenasList } from './data';
+import {arenasList} from './data';
 
-const { styles } = require('../src/constants/style-sheet');
+const {styles} = require('../src/constants/style-sheet');
 
 export default class Arenas extends React.Component {
   static navigationOptions = {
@@ -21,15 +25,18 @@ export default class Arenas extends React.Component {
 
   componentDidMount() {
     return fetch('http://actionsport.spawtz.com/External/Fixtures/')
-      .then(resposne => resposne.text())
-      .then((responseText) => {
+      .then(response => response.text())
+      .then(responseText => {
         const list = arenasList(responseText);
-        this.setState({
-          isLoading: false,
-          dataSource: list,
-        }, () => {});
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: list,
+          },
+          () => {},
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   }
@@ -37,51 +44,44 @@ export default class Arenas extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20 }}>
+        <View
+          style={{
+            flex: 1,
+            padding: 20,
+          }}>
           <ActivityIndicator size="large" style={styles.activity} />
-        </View>);
-    }
-
-    function adBanner(index) {
-      let adB;
-      if (index > 0 && index % 6 === 0) {
-        adB = (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <AdMobBanner
-              adSize="smartBanner"
-              adUnitID="ca-app-pub-1949277801081319/6218814838"
-              onAdFailedToLoad={error => console.log(error)}
-            />
-          </View>
-        );
-      } else adB = <View />;
-      return adB;
+        </View>
+      );
     }
 
     return (
-      <View style={{ flex: 1 }}>
-        <View style={styles.header}><Text style={styles.textHeader}>Arenas</Text></View>
+      <View style={{flex: 1}}>
+        <View style={styles.header}>
+          <Text style={styles.textHeader}>Arenas</Text>
+        </View>
         <FlatList
           data={this.state.dataSource}
-          renderItem={({ item, index }) => (
-            <View style={{
-              flex: 1,
-            }}
-            >
-              {adBanner(index)}
+          renderItem={({item}) => (
+            <View
+              style={{
+                flex: 1,
+              }}>
               <TouchableOpacity
                 style={styles.card}
-                onPress={() => this.props.navigation.push('sports', {
-                  arenaUrl: item.url,
-                  arenaName: item.name,
-                })}
-              >
+                onPress={() =>
+                  this.props.navigation.push('sports', {
+                    arenaUrl: item.url,
+                    arenaName: item.name,
+                  })
+                }>
                 <Text style={styles.textCard}>{item.name}</Text>
               </TouchableOpacity>
               <View style={styles.fullLine} />
-            </View>)}
+            </View>
+          )}
           keyExtractor={(item, index) => index.toString()}
         />
-      </View>);
+      </View>
+    );
   }
 }

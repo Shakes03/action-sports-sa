@@ -26,10 +26,10 @@ const leaguesList = (responseText, sport) => {
   const allLeagues = [];
   let list;
   if (listObject.length > 0 && isNotLeague.length > 0) {
-    if (
-      isNotLeague[0].childNodes[0].rawText.includes('ZAR ')
-      || isNotLeague[0].childNodes[0].rawText.includes('Witbank ')
-      || isNotLeague[0].childNodes[0].rawText.includes('Castle ')) {
+    if (isNotLeague[0].childNodes[0].rawText.includes('ZAR ') 
+        || isNotLeague[0].childNodes[0].rawText.includes('Witbank ') 
+        || isNotLeague[0].childNodes[0].rawText.includes('WICF ')
+        || isNotLeague[0].childNodes[0].rawText.includes('Brackenfell ')) {
       allLeagues.push({ [isNotLeague[0].childNodes[0].rawText.replace(' Current Leagues', '')]: [] });
     }
     listObject.map((x) => {
