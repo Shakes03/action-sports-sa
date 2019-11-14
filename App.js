@@ -1,6 +1,7 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { YellowBox, AsyncStorage } from 'react-native';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {YellowBox, AsyncStorage} from 'react-native';
 
 import Arenas from './src/screen-arenas';
 import Sports from './src/screen-sports';
@@ -10,7 +11,15 @@ import Fixtures from './src/screen-fixtures';
 import Team from './src/screen-team';
 import Players from './src/screen-players';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Warning: Can\'t', 'Require cycle']);
+YellowBox.ignoreWarnings([
+  'AsyncStorage',
+  'Warning: isMounted(...) is deprecated',
+  'Module RCTImageLoader',
+  "Warning: Can't",
+  'Require cycle',
+  'Warning: Encountered',
+  'Virtualized',
+]);
 
 export default class App extends React.Component {
   state = {
@@ -21,11 +30,11 @@ export default class App extends React.Component {
     fixturesUrl: '',
     hasFavourite: false,
     division: '',
-  }
+  };
 
   componentDidMount = async () => {
     await this.getKey();
-  }
+  };
 
   async getKey() {
     try {
@@ -37,7 +46,13 @@ export default class App extends React.Component {
       const hasFavourite = await AsyncStorage.getItem('hasFavourite');
       const division = await AsyncStorage.getItem('division');
       this.setState({
-        screen, arenaName, arenaUrl, standingsUrl, hasFavourite, division, fixturesUrl,
+        screen,
+        arenaName,
+        arenaUrl,
+        standingsUrl,
+        hasFavourite,
+        division,
+        fixturesUrl,
       });
     } catch (error) {
       console.log(`Error retrieving data${error}`);
@@ -47,15 +62,20 @@ export default class App extends React.Component {
   render() {
     const route = {};
     route.initialRouteName = this.state.screen;
-    const RootStack = createAppContainer(createStackNavigator({
-      arenas: Arenas,
-      sports: Sports,
-      leagues: Leagues,
-      division: Division,
-      fixtures: Fixtures,
-      team: Team,
-      players: Players,
-    }, route));
+    const RootStack = createAppContainer(
+      createStackNavigator(
+        {
+          arenas: Arenas,
+          sports: Sports,
+          leagues: Leagues,
+          division: Division,
+          fixtures: Fixtures,
+          team: Team,
+          players: Players,
+        },
+        route,
+      ),
+    );
     const propsForTheScreen = {
       arenaName: this.state.arenaName,
       arenaUrl: this.state.arenaUrl,

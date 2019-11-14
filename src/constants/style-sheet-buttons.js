@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   $green,
   $white,
@@ -41,6 +41,8 @@ const styles = {
   },
   swipeOutButton: {
     flex: 1,
+    width: 140,
+    alignSelf: 'flex-end',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: $black,

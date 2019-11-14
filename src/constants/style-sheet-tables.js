@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   $green,
   $white,
@@ -41,13 +41,9 @@ const styles = {
     fontSize: 16,
   },
   tableCard: {
-    // marginBottom: 3,
     flex: 1,
     paddingLeft: 10,
     paddingBottom: 10,
-    // borderBottomColor: 'white',
-    // borderBottomWidth: 1,
-    // backgroundColor: $green,
   },
 };
 

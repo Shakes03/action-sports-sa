@@ -1,6 +1,4 @@
-import {
-  $black,
-} from './colors';
+import {$black} from './colors';
 
 const styles = {
   line: {
