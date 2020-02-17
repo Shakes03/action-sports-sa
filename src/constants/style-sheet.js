@@ -22,9 +22,7 @@ const styles = StyleSheet.create(
       },
       header: {
         backgroundColor: 'darkseagreen',
-        elevation: 3,
-        borderWidth: 0.2,
-        borderColor: 'green',
+        // elevation: 3,
       },
       elevation: {
         elevation: 3,
@@ -184,9 +182,9 @@ const styles = StyleSheet.create(
         right: 15,
         marginTop: 15,
         position: 'absolute',
-        opacity: 0.4,
-        width: 20,
-        height: 20,
+        opacity: 0.2,
+        width: 14,
+        height: 14,
       },
       imgBackground: {
         flex: 1,

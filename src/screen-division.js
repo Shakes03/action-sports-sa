@@ -1,7 +1,5 @@
 import React from 'react';
-import {AdMobBanner} from 'react-native-admob';
 import {
-  ActivityIndicator,
   Modal,
   FlatList,
   SectionList,
@@ -13,43 +11,81 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
+
+import {Overlay, Button} from 'react-native-elements';
+
+import Rate, {AndroidMarket} from 'react-native-rate';
+import RNRestart from 'react-native-restart'; // Import package from node modules
+
+// Immediately reload the React Native Bundle
+
 import {Col, Grid} from 'react-native-easy-grid';
 import CheckBox from 'react-native-check-box';
 import {teamsList, resultsList} from './data';
+import Activity from './common/activity';
 
 const {styles} = require('../src/constants/style-sheet');
 
 export default class Division extends React.Component {
-  static navigationOptions = {
-    title: 'Division',
-  };
+  static navigationOptions = {header: null};
 
   constructor(props) {
     super(props);
     const {navigation} = this.props;
-    const standingsUrl = navigation.getParam(
-      'standings',
-      this.props.screenProps.standingsUrl,
+
+    const favouritesList = navigation.getParam(
+      'favouritesList',
+      this.props.screenProps.favouritesList,
     );
-    const fixturesUrl = navigation.getParam(
-      'fixtures',
-      this.props.screenProps.fixturesUrl,
-    );
-    const division = navigation.getParam(
-      'division',
-      this.props.screenProps.division,
-    );
-    const {hasFavourite} = this.props.screenProps;
+
+    const standingsUrl = navigation.getParam('standings');
+
+    let pageList;
+    if (
+      Array.isArray(JSON.parse(favouritesList)) &&
+      JSON.parse(favouritesList).length &&
+      !standingsUrl
+    ) {
+      pageList = JSON.parse(favouritesList).filter(
+        x => x.division === navigation.state.routeName,
+      );
+    } else {
+      pageList = [
+        {
+          standingsUrl: navigation.getParam(
+            'standings',
+            this.props.screenProps.standingsUrl,
+          ),
+          fixturesUrl: navigation.getParam(
+            'fixtures',
+            this.props.screenProps.fixturesUrl,
+          ),
+          division: navigation.getParam(
+            'division',
+            this.props.screenProps.division,
+          ),
+          isFavorite: false,
+        },
+      ];
+    }
+
+    const {hasFavourite, rated} = this.props.screenProps;
+
     this.state = {
+      hasRated: false,
+      isVisible: true,
       modalVisible: false,
       isLoading: true,
-      standingsUrl,
-      fixturesUrl,
+      standingsUrl: pageList[0].standingsUrl,
+      fixturesUrl: pageList[0].fixturesUrl,
       hasFavourite,
       pointsBreakdown: 'No points breakdown',
-      division,
-      isChecked:
-        hasFavourite === 'true' && division === this.props.screenProps.division,
+      division: pageList[0].division,
+      isChecked: pageList[0].isFavorite,
+      rated,
+      refreshing: false,
+      favouritesList: JSON.parse(favouritesList || '[]'),
+      favModalVisible: false,
     };
   }
 
@@ -77,27 +113,99 @@ export default class Division extends React.Component {
     this.setState({modalVisible: visible});
   }
 
+  async saveAppRatingKey() {
+    try {
+      await AsyncStorage.setItem('rated', 'true');
+    } catch (error) {
+      console.log(`Error saving data${error}`);
+    }
+  }
+
+  showFavModal(state) {
+    return (
+      <Overlay width="80%" height={150} isVisible={state.favModalVisible}>
+        <View>
+          <Text
+            style={{
+              margin: 15,
+              marginLeft: 45,
+              marginRight: 45,
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              fontSize: 20,
+              color: 'black',
+            }}>
+            {state.isChecked ? 'Added\nto' : 'Removed\nfrom'} your favorites.
+          </Text>
+          <Button
+            buttonStyle={{backgroundColor: 'forestgreen'}}
+            raised
+            title="OK"
+            onPress={() => {
+              this.setState({favModalVisible: false});
+              RNRestart.Restart();
+            }}
+          />
+        </View>
+      </Overlay>
+    );
+  }
+
   async saveKey({screen, standingsUrl, division, fixturesUrl}) {
+    await AsyncStorage.removeItem('division');
+    const favouritesList = this.state.favouritesList;
+    favouritesList.push({
+      screen,
+      standingsUrl,
+      division,
+      fixturesUrl,
+      isFavorite: true,
+    });
     try {
       await AsyncStorage.setItem('hasFavourite', 'true');
       await AsyncStorage.setItem('screen', screen);
       await AsyncStorage.setItem('standingsUrl', standingsUrl);
       await AsyncStorage.setItem('fixturesUrl', fixturesUrl);
       await AsyncStorage.setItem('division', division);
+      await AsyncStorage.setItem(
+        'favouritesList',
+        JSON.stringify(favouritesList),
+      );
+      this.setState({
+        favModalVisible: !this.state.favModalVisible,
+      });
     } catch (error) {
-      console.log(`Error saving data${error}`);
+      console.warn(`Error saving data${error}`);
     }
   }
 
   async resetKeys() {
+    const favouritesList = this.state.favouritesList;
+    let favListRemoveItem;
+    if (favouritesList.length !== 0) {
+      favListRemoveItem = favouritesList.filter(
+        x => x.standingsUrl !== this.state.standingsUrl,
+      );
+    }
+
     try {
-      await AsyncStorage.setItem('screen', 'arenas');
-      await AsyncStorage.setItem('hasFavourite', 'false');
       await AsyncStorage.removeItem('arenaName');
       await AsyncStorage.removeItem('arenaUrl');
       await AsyncStorage.removeItem('standingsUrl');
       await AsyncStorage.removeItem('fixturesUrl');
       await AsyncStorage.removeItem('division');
+      await AsyncStorage.setItem(
+        'favouritesList',
+        JSON.stringify(favListRemoveItem),
+      );
+      if (favListRemoveItem.length === 0) {
+        await AsyncStorage.setItem('screen', 'arenas');
+        await AsyncStorage.setItem('hasFavourite', 'false');
+      }
+      this.setState({
+        favModalVisible: !this.state.favModalVisible,
+      });
     } catch (error) {
       console.warn(`Error saving data${error}`);
     }
@@ -105,15 +213,46 @@ export default class Division extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" style={styles.activity} />
-        </View>
-      );
+      return <Activity />;
     }
 
     return (
       <View style={{flex: 1}}>
+        {this.showFavModal(this.state)}
+        <Overlay
+          isVisible={!this.state.rated}
+          onBackdropPress={() => this.setState({rated: true})}>
+          <View
+            style={{
+              width: '100%',
+              height: '90%',
+              overflow: 'hidden',
+              // alignItems: 'center',
+              position: 'relative',
+            }}>
+            <Image
+              resizeMode="center"
+              style={{flex: 1, height: undefined, width: undefined}}
+              source={require('./assets/google-play-logo.png')}
+            />
+            <Button
+              title="Rate App"
+              onPress={() => {
+                const options = {
+                  GooglePackageName: 'com.actionsportssa',
+                  preferredAndroidMarket: AndroidMarket.Google,
+                };
+                Rate.rate(options, success => {
+                  if (success) {
+                    // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+                    this.saveAppRatingKey();
+                  }
+                });
+              }}
+            />
+          </View>
+        </Overlay>
+
         <View style={styles.header}>
           <Text style={styles.textHeader}>{this.state.division}</Text>
         </View>
@@ -345,7 +484,9 @@ export default class Division extends React.Component {
                   <Col size={14}>
                     <TouchableOpacity
                       onPress={() => {
-                        this.setState({pointsBreakdown: item.pointsBreakdown});
+                        this.setState({
+                          pointsBreakdown: item.pointsBreakdown,
+                        });
                         return this.setModalVisible(true);
                       }}>
                       <Text style={styles.textTableBodyLink}>

@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  SectionList,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import {SectionList, Text, View, TouchableOpacity} from 'react-native';
+import Activity from './common/activity';
+
 import {fixturesList} from './data';
 
 const {styles} = require('../src/constants/style-sheet');
@@ -46,13 +42,10 @@ export default class Fixtures extends React.Component {
         console.error(error);
       });
   }
+
   render() {
     if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" style={styles.activity} />
-        </View>
-      );
+      return <Activity />;
     }
 
     return (
@@ -60,7 +53,7 @@ export default class Fixtures extends React.Component {
         <View style={styles.header}>
           <Text style={styles.textHeader}>{this.state.division}</Text>
         </View>
-        <View style={styles.fullLine} />
+
         <View style={{flex: 1}}>
           <SectionList
             renderItem={({item, index}) => (

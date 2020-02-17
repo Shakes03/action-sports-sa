@@ -33,7 +33,7 @@ const styles = {
     marginTop: 10,
     marginLeft: 5,
     color: $green,
-    fontSize: 16,
+    fontSize: 18,
   },
   textTableBodyPlayerStats: {
     marginLeft: 5,

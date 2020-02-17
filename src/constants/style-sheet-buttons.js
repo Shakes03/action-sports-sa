@@ -47,8 +47,6 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: $black,
     marginBottom: 3,
-    borderColor: $black,
-    borderWidth: 1,
   },
 };
 

@@ -2,6 +2,9 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {YellowBox, AsyncStorage} from 'react-native';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+
+import Activity from './src/common/activity';
 
 import Arenas from './src/screen-arenas';
 import Sports from './src/screen-sports';
@@ -22,19 +25,26 @@ YellowBox.ignoreWarnings([
 ]);
 
 export default class App extends React.Component {
-  state = {
-    screen: '',
-    arenaName: '',
-    arenaUrl: '',
-    standingsUrl: '',
-    fixturesUrl: '',
-    hasFavourite: false,
-    division: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      screen: '',
+      arenaName: '',
+      arenaUrl: '',
+      standingsUrl: '',
+      fixturesUrl: '',
+      hasFavourite: false,
+      division: '',
+      rated: false,
+      favouritesList: [],
+      tabsList: {},
+    };
+  }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     await this.getKey();
-  };
+  }
 
   async getKey() {
     try {
@@ -45,6 +55,11 @@ export default class App extends React.Component {
       const fixturesUrl = await AsyncStorage.getItem('fixturesUrl');
       const hasFavourite = await AsyncStorage.getItem('hasFavourite');
       const division = await AsyncStorage.getItem('division');
+      const rated = await AsyncStorage.getItem('rated');
+      const favouritesList = await AsyncStorage.getItem('favouritesList');
+
+      const list = JSON.parse(favouritesList);
+      console.log('L', list);
       this.setState({
         screen,
         arenaName,
@@ -53,37 +68,74 @@ export default class App extends React.Component {
         hasFavourite,
         division,
         fixturesUrl,
+        rated,
+        favouritesList,
+        list: list || [],
       });
+      this.setState({isLoading: false});
     } catch (error) {
       console.log(`Error retrieving data${error}`);
     }
   }
 
   render() {
-    const route = {};
-    route.initialRouteName = this.state.screen;
-    const RootStack = createAppContainer(
-      createStackNavigator(
-        {
-          arenas: Arenas,
-          sports: Sports,
-          leagues: Leagues,
-          division: Division,
-          fixtures: Fixtures,
-          team: Team,
-          players: Players,
+    if (this.state.isLoading) {
+      return <Activity />;
+    } else {
+      let tabsList = {};
+      this.state.list.forEach(i =>
+        Object.assign(tabsList, {[i.division]: Division}),
+      );
+      if (Object.keys(tabsList).length === 0) {
+        tabsList = {team: Division};
+      }
+
+      const tabs = createMaterialTopTabNavigator(tabsList, {
+        tabBarPosition: 'bottom',
+        tabBarOptions: {
+          scrollEnabled: true,
+          activeTintColor: 'tomato',
+          style: {
+            backgroundColor: 'white',
+          },
+          labelStyle: {
+            fontSize: 14,
+            color: 'teal',
+          },
         },
-        route,
-      ),
-    );
-    const propsForTheScreen = {
-      arenaName: this.state.arenaName,
-      arenaUrl: this.state.arenaUrl,
-      standingsUrl: this.state.standingsUrl,
-      fixturesUrl: this.state.fixturesUrl,
-      hasFavourite: this.state.hasFavourite,
-      division: this.state.division,
-    };
-    return <RootStack screenProps={propsForTheScreen} />;
+      });
+      const RootStack = createAppContainer(
+        createStackNavigator(
+          {
+            arenas: Arenas,
+            sports: Sports,
+            leagues: Leagues,
+            division: tabs,
+            fixtures: Fixtures,
+            team: Team,
+            players: Players,
+          },
+          {
+            initialRouteName: this.state.screen,
+            headerMode: 'none',
+            navigationOptions: {
+              headerVisible: false,
+            },
+          },
+        ),
+      );
+
+      const propsForTheScreen = {
+        arenaName: this.state.arenaName,
+        arenaUrl: this.state.arenaUrl,
+        standingsUrl: this.state.standingsUrl,
+        fixturesUrl: this.state.fixturesUrl,
+        hasFavourite: this.state.hasFavourite,
+        division: this.state.division,
+        rated: this.state.rated,
+        favouritesList: this.state.favouritesList,
+      };
+      return <RootStack screenProps={propsForTheScreen} />;
+    }
   }
 }
