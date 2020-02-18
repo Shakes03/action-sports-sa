@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 // import Swipeout from 'react-native-swipeout';
+import Activity from './common/activity';
+
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {allFixturesAndStandings, leaguesList} from './data';
 
@@ -62,11 +58,7 @@ export default class Leagues extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" style={styles.activity} />
-        </View>
-      );
+      return <Activity />;
     }
 
     return (
@@ -125,7 +117,6 @@ export default class Leagues extends React.Component {
               <Text style={styles.textButton}>MVPs</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.fullLine} />
         </View>
         <SwipeListView
           data={this.state.dataSource}

@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  Text,
-  Image,
-  View,
-} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
+import Activity from './common/activity';
+
 import {Col, Grid} from 'react-native-easy-grid';
-import CollapseView from 'react-native-collapse-view';
 import {divisionPlayerList} from './data';
 
 const {styles} = require('../src/constants/style-sheet');
@@ -45,11 +39,7 @@ export default class Players extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" style={styles.activity} />
-        </View>
-      );
+      return <Activity />;
     }
 
     return (
@@ -57,40 +47,38 @@ export default class Players extends React.Component {
         <View style={styles.header}>
           <Text style={styles.textHeader}>{this.state.teamName}</Text>
         </View>
+        <View
+          style={{
+            paddingLeft: 5,
+            paddingBottom: 30,
+            backgroundColor: 'white',
+          }}>
+          <Grid>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>G</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>R</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>RA</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>W</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>RC</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>C</Text>
+            </Col>
+            <Col size={15}>
+              <Text style={styles.textTableHeading}>CA</Text>
+            </Col>
+          </Grid>
+        </View>
         <View style={styles.fullLine} />
-        <ScrollView style={styles.tableCard}>
-          <View
-            style={{
-              paddingLeft: 5,
-              paddingBottom: 10,
-              borderBottomColor: 'white',
-              borderBottomWidth: 1,
-            }}>
-            <Grid>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>G</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>R</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>RA</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>W</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>RC</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>C</Text>
-              </Col>
-              <Col size={15}>
-                <Text style={styles.textTableHeading}>CA</Text>
-              </Col>
-            </Grid>
-          </View>
-          <View style={styles.fullLine} />
+        <View>
           <FlatList
             data={this.state.dataSource}
             keyExtractor={(item, index) => index.toString()}
@@ -98,8 +86,6 @@ export default class Players extends React.Component {
               <View style={{paddingLeft: 5}}>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
                     marginVertical: 8,
                   }}>
                   <Text style={styles.textTableBodyPlayer}>
@@ -108,9 +94,7 @@ export default class Players extends React.Component {
                   <Text
                     style={{
                       fontSize: 12,
-                      right: 20,
-                      bottom: 22,
-                      position: 'absolute',
+                      left: 8,
                     }}>
                     {item.team} - {item.division}
                   </Text>
@@ -152,11 +136,11 @@ export default class Players extends React.Component {
                     </Text>
                   </Col>
                 </Grid>
-                <View style={{marginTop: 5}}></View>
+                <View style={{marginTop: 5}} />
               </View>
             )}
           />
-        </ScrollView>
+        </View>
       </View>
     );
   }

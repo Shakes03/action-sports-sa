@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
+import {ListItem} from 'react-native-elements';
+
 import {arenasList} from './data';
+import Activity from './common/activity';
 
 const {styles} = require('../src/constants/style-sheet');
 
@@ -41,45 +37,36 @@ export default class Arenas extends React.Component {
       });
   }
 
+  keyExtractor = (item, index) => index.toString();
+
+  renderItem = ({item}) => (
+    <ListItem
+      title={item.name}
+      bottomDivider
+      chevron
+      onPress={() =>
+        this.props.navigation.push('sports', {
+          arenaUrl: item.url,
+          arenaName: item.name,
+        })
+      }
+    />
+  );
+
   render() {
     if (this.state.isLoading) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}>
-          <ActivityIndicator size="large" style={styles.activity} />
-        </View>
-      );
+      return <Activity />;
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View>
         <View style={styles.header}>
           <Text style={styles.textHeader}>Arenas</Text>
         </View>
         <FlatList
+          keyExtractor={this.keyExtractor}
           data={this.state.dataSource}
-          renderItem={({item}) => (
-            <View
-              style={{
-                flex: 1,
-              }}>
-              <TouchableOpacity
-                style={styles.card}
-                onPress={() =>
-                  this.props.navigation.push('sports', {
-                    arenaUrl: item.url,
-                    arenaName: item.name,
-                  })
-                }>
-                <Text style={styles.textCard}>{item.name}</Text>
-              </TouchableOpacity>
-              <View style={styles.fullLine} />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
+          renderItem={this.renderItem}
         />
       </View>
     );
